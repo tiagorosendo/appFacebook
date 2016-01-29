@@ -1,0 +1,15 @@
+{
+    "remotePath": "./appUpload/",
+    "host": "ftp.tiagorosendo.com",
+    "username": "u660123307.jack",
+    "password": "Karasurfol",
+    "port": 21,
+    "protocol": "ftp",
+    "uploadOnSave": false,
+    "passive": false,
+    "debug": false,
+    "ignore": [
+        "\\.vscode",
+        "\\.git"
+    ]
+}
