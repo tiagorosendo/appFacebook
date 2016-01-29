@@ -1,3 +1,4 @@
+/* global FB */
 (function() {
     'use strict';
 
