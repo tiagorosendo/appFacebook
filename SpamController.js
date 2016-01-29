@@ -5,9 +5,9 @@
         .module('app')
         .controller('SpamController', SpamController);
 
-    SpamController.$inject = ['$timeout', 'FacebookService'];
+    SpamController.$inject = ['$timeout', '$window', 'FacebookService'];
 
-    function SpamController($timeout, FacebookService) {
+    function SpamController($timeout, $window, FacebookService) {
         var vm = this;
 
         vm.lista = [];
@@ -84,7 +84,7 @@
 
         }
 
-        window.fbAsyncInit = function() {
+        $window.fbAsyncInit = function() {
             FB.init({
                 appId: '1578396682448127',
                 cookie: true, // enable cookies to allow the server to access 
@@ -108,7 +108,7 @@
             js.id = id;
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+        }(angular.element, 'script', 'facebook-jssdk'));
 
         function testAPI() {
             console.log('Welcome!  Fetching your information.... ');
