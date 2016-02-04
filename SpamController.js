@@ -108,7 +108,7 @@
             js.id = id;
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
-        }(angular.element, 'script', 'facebook-jssdk'));
+        }(document, 'script', 'facebook-jssdk'));
 
         function testAPI() {
             console.log('Welcome!  Fetching your information.... ');
