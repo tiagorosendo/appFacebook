@@ -5,9 +5,9 @@
         .module('app')
         .controller('SpamController', SpamController);
 
-    SpamController.$inject = ['$timeout', '$window', 'FacebookService'];
+    SpamController.$inject = ['$scope', '$timeout', '$window', 'FacebookService'];
 
-    function SpamController($timeout, $window, FacebookService) {
+    function SpamController($scope, $timeout, $window, FacebookService) {
         var vm = this;
 
         vm.lista = [];
@@ -17,8 +17,15 @@
         vm.checkLoginState = checkLoginState;
         vm.SegundaEtapa = SegundaEtapa;
         vm.EnviarSpam = EnviarSpam;
+        vm.atualizarDados = atualizarDados;
         vm.isPrimeiraEtapa = true;
         vm.progresso = 0;
+
+        function atualizarDados(link) {
+            console.log("Atualizar");
+            vm.hasImage = true;
+            vm.link = link;
+        }
 
         function SegundaEtapa() {
             vm.listaSelecionados = vm.lista.filter(function(x) {
@@ -29,12 +36,13 @@
         }
 
         function EnviarSpam() {
+            console.log("a", vm.link);
             var params = {
                 id: 0,
                 dados: {
                     message: vm.Mensagem,
                     access_token: vm.response.authResponse.accessToken,
-                    url: 'http://static.dezeen.com/uploads/2013/03/dezeen_Sergio-concept-car-by-Pininfarina_ss_4.jpg'
+                    url: vm.link
                 }
             };
 
@@ -45,9 +53,10 @@
                         vm.listaSelecionados[y] = (!response || response.error);
                     });
 
+
                     console.log("%d => %s", y, vm.listaSelecionados[y].name);
                     atualizarProgresso(y + 1, ln);
-                }, x * 5000, x);
+                }, x * 50000, x);
             }
         }
 

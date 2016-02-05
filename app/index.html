@@ -5,10 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="your_style.css">
+
     <script src="https://code.angularjs.org/1.4.9/angular.min.js"></script>
     <script src="app.js"></script>
     <script src="FacebookService.js"></script>
     <script src="SpamController.js"></script>
+    <script src="imgur.js"></script>
+    <script src="drop.js"></script>
 
     <title>Upload Application</title>
 </head>
@@ -61,7 +65,16 @@
                             <textarea ng-model="vm.Mensagem" class="form-control" rows="6" cols="100"></textarea>
                             {{vm.Mensagem}}
                         </div>
-                        <button type="button" class="btn btn-success" ng-click="vm.EnviarSpam()">Continuar</button>
+
+                        
+
+                        <div class="row drop">
+                            <drop>
+                                <h2>{{message}}</h2>
+                            </drop>
+                        </div>
+                        
+                        <button type="button" ng-show="vm.hasImage" class="btn btn-success" ng-click="vm.EnviarSpam()">Continuar</button>
                     </form>
                 </div>
             </div>
