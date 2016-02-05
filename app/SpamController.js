@@ -53,7 +53,7 @@
                     params.id = vm.listaSelecionados[y].id;
 
                     FB.api('/' + params.id + '/photos', 'post', params.dados, function(response) {
-                        vm.listaSelecionados[y] = (!response || response.error);
+                        vm.listaSelecionados[y] = !response.error;
                     });
 
 

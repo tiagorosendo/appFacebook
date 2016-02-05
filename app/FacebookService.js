@@ -6,9 +6,9 @@
         .module('app')
         .service('FacebookService', FacebookService);
 
-    FacebookService.$inject = ['$timeout'];
+    FacebookService.$inject = ['$timeout', '$q'];
 
-    function FacebookService($timeout) {
+    function FacebookService($timeout, $q) {
         var service = this;
         service.methods = {};
         service.methods.sendGroupImage = sendGroupImage;
@@ -16,9 +16,16 @@
         return service;
 
         function sendGroupImage(param) {
-            return FB.api('/' + param.id + '/photos', 'post', param.dados, function(response) {
-                return response;
+            var deferred = $q.defer();
+
+            FB.api('/' + param.id + '/photos', 'post', param.dados, function(response) {
+                if (!response || response.error) {
+                    deferred.reject('Error occured');
+                } else {
+                    deferred.resolve(response);
+                }
             });
+            return deferred.promise;
         };
 
         function getGroupList() {

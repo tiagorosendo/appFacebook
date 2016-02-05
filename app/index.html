@@ -42,7 +42,7 @@
                         Grupos Encontrados
                         <div>
                             <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="item in vm.lista">
+                                <li class="list-group-item" ng-repeat="item in vm.lista track by $index">
                                     <input type="checkbox" ng-model="item.checked"> {{item.name}}
                                 </li>
                             </ul>
@@ -56,7 +56,8 @@
                             Grupos Pendentes
 
                             <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="item in vm.listaSelecionados">{{item.name}} <i ng-if="item.posted" class="glyphicon glyphicon-ok"></i></li>
+                                <li class="list-group-item" ng-repeat="item in vm.listaSelecionados track by $index">{{item.name}}
+                                    <i ng-if="item.posted" class="glyphicon glyphicon-ok"></i></li>
                             </ul>
                         </div>
 
@@ -66,14 +67,14 @@
                             {{vm.Mensagem}}
                         </div>
 
-                        
+
 
                         <div class="row drop">
                             <drop>
                                 <h2>{{message}}</h2>
                             </drop>
                         </div>
-                        
+
                         <button type="button" ng-show="vm.hasImage" class="btn btn-success" ng-click="vm.EnviarSpam()">Continuar</button>
                     </form>
                 </div>
