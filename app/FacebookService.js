@@ -13,6 +13,7 @@
         service.methods = {};
         service.methods.sendGroupImage = sendGroupImage;
         service.methods.getGroupList = getGroupList;
+        return service;
 
         function sendGroupImage(param) {
             return FB.api('/' + param.id + '/photos', 'post', param.dados, function(response) {
