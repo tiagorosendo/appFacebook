@@ -46,6 +46,8 @@
                 }
             };
 
+console.log("Face",FacebookService.methods);
+
             for (var x = 0, ln = vm.listaSelecionados.length; x < ln; x++) {
                 setTimeout(function(y) {
                     params.id = vm.listaSelecionados[y].id;
