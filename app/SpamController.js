@@ -46,12 +46,13 @@
                 }
             };
 
-console.log("Face",FacebookService.methods);
+            console.log("Face", FacebookService.methods);
 
             for (var x = 0, ln = vm.listaSelecionados.length; x < ln; x++) {
                 setTimeout(function(y) {
                     params.id = vm.listaSelecionados[y].id;
-                    FacebookService.methods.sendGroupImage(params).then(function(response) {
+
+                    FB.api('/' + params.id + '/photos', 'post', params.dados, function(response) {
                         vm.listaSelecionados[y] = (!response || response.error);
                     });
 
