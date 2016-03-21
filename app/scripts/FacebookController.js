@@ -121,19 +121,16 @@
 
             imgurUploadService
                 .upload(vm.selectedImage)
-                .then(success, error);
-
-            var success = function(result) {
-                vm.sendingImage = false;
-                vm.imageSended = true;
-                vm.imgLink = result.data.link;
-            };
-
-            var error = function(err) {
-                vm.sendingImage = false;
-                vm.imageSended = false;
-                vm.error = err;
-            };
+                .then(function(result) {
+                    vm.sendingImage = false;
+                    vm.imageSended = true;
+                    vm.imgLink = result.data.link;
+                })
+                .catch(function(err) {
+                    vm.sendingImage = false;
+                    vm.imageSended = false;
+                    vm.error = err;
+                });
         };
     }
 }())
