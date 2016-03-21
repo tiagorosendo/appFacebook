@@ -44,7 +44,7 @@
                 setTimeout(function(y) {
                     params.id = selectedGroups[y].id;
 
-                    FB.api('/' + params.id + '/photos', 'post', params, function(response) {
+                    FB.api('/' + params.id + '/photos', 'post', params.dados, function(response) {
                         $timeout(function() {
                             selectedGroups[y].done = !response.error;
                         });
