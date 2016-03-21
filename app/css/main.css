@@ -1,0 +1,14 @@
+input[type="file"] {
+    display: block !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    z-index: 100 !important;
+    margin-top: -20px;
+    height: 100px;
+    cursor: copy !important;
+}
+
+.uploadArea {
+    border-radius: 15px;
+    border: dashed 1px #c6c6c6;
+}

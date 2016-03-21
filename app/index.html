@@ -1,88 +1,86 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="your_style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-    <script src="https://code.angularjs.org/1.4.9/angular.min.js"></script>
-    <script src="app.js"></script>
-    <script src="FacebookService.js"></script>
-    <script src="SpamController.js"></script>
-    <script src="imgur.js"></script>
-    <script src="drop.js"></script>
-
-    <title>Upload Application</title>
+    <link rel="stylesheet" href="css/main.css" />
 </head>
 
-<body>
+<body ng-app="app.facebook">
 
-    <div class="container" ng-app="app">
-        <div ng-controller="SpamController as vm">
-            <div class="row form-group">
-                <div class=" col-xs-6 col-md-6">
-                    <fb:login-button scope="public_profile,email,publish_actions,user_groups" onlogin="checkLoginState();">
+    <md-content ng-controller="SpamController as vm" layout="column" md-whiteframe="1" style="height: 600px;" md-theme="altTheme">
+
+        <md-toolbar md-scroll-shrink="">
+            <div class="md-toolbar-tools">
+                <h2>          <span>AutoPost</span>        </h2>
+                <span flex="">
+                </span>
+                <div>
+                    <fb:login-button scope="public_profile,publish_actions,user_groups" onlogin="checkLoginState();">
                     </fb:login-button>
-                    {{vm.usuariologado}}
-                </div>
-                <div class="pull-right">
-                    <button type="button" class="btn btn-danger">Resetar</button>
+                    <h1>{{vm.usuariologado}}</h1>
                 </div>
             </div>
-            <div class="row ">
-                <div class=" col-xs-12 col-md-12">
-                    <div class="progress" ng-if="!vm.isPrimeiraEtapa">
-                        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{vm.progresso}}%">
-                            {{vm.progresso}}% Completo
-                        </div>
+        </md-toolbar>
+
+
+
+        <section>
+            <md-subheader class="md-primary">
+                <span ng-show="!vm.sending">{{vm.countSelectedGroups()}} Grupo(s) Selecionado(s).</span>
+                <span ng-show="vm.sending">Enviando... <i class="fa fa-circle-o-notch fa-spin"></i></span>
+            </md-subheader>
+
+            <md-list layout-padding="">
+                <md-list-item ng-repeat="group in vm.listGroups">
+                    <div class="md-list-item-text">
+                        <p>{{group.name}}
+                            <i ng-if="group.done" class="material-icons">done</i>
+                            <md-checkbox ng-if="!vm.sending" ng-model="group.select" class="md-secondary"></md-checkbox>
+                        </p>
                     </div>
-                    <div class=" col-xs-6 col-md-6" ng-if="vm.isPrimeiraEtapa">
-                        Grupos Encontrados
-                        <div>
-                            <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="item in vm.lista track by $index">
-                                    <input type="checkbox" ng-model="item.checked"> {{item.name}}
-                                </li>
-                            </ul>
-                        </div>
-                        <button type="button" class="btn btn-success" ng-click="vm.SegundaEtapa()">Continuar</button>
-                    </div>
+                </md-list-item>
+            </md-list>
+        </section>
 
 
-                    <form class=" col-xs-6 col-md-6" ng-if="!vm.isPrimeiraEtapa">
-                        <div>
-                            Grupos Pendentes
+        <form name="vm.form">
+            <md-input-container class="md-block">
+                <label>Mensagem</label>
+                <textarea ng-model="vm.message" md-maxlength="150" rows="5" name="message" ng-required="true"></textarea>
+            </md-input-container>
 
-                            <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="item in vm.listaSelecionados track by $index">{{item.name}}
-                                    <i ng-if="item.posted" class="glyphicon glyphicon-ok"></i></li>
-                            </ul>
-                        </div>
-
-                        <div class="form-group">
-                            Mensagem:
-                            <textarea ng-model="vm.Mensagem" class="form-control" rows="6" cols="100"></textarea>
-                            {{vm.Mensagem}}
-                        </div>
+            <md-input-container md-no-float>
 
 
-
-                        <div class="row drop">
-                            <drop>
-                                <h2>{{message}}</h2>
-                            </drop>
-                        </div>
-
-                        <button type="button" ng-show="vm.hasImage" class="btn btn-success" ng-click="vm.EnviarSpam()">Continuar</button>
-                    </form>
+            </md-input-container>
+            <md-button>
+                Escolha uma imagem.
+                <div class="uploadArea">
+                    <input id="fileInput" type="file" onchange="angular.element(this).controller().upload(this)" accept="image/*" />
+                    <span ng-if="vm.sendingImage">Enviando... <i class="fa fa-circle-o-notch fa-spin"></i></span>
+                    <span ng-if="vm.imageSended">Imagem Enviada<i class="material-icons">done</i></span>
                 </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            </md-button>
+        </form>
+        <md-button ng-click="vm.SendMessage()" class="md-raised md-primary" ng-disabled="vm.form.$invalid"> Enviar Mensagem para os Grupos</md-button>
+    </md-content>
+
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.js"></script>
+    <script src="node_modules/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="node_modules/angular-material/angular-material.js"></script>
+    <script src="node_modules/angular-messages/angular-messages.js"></script>
+    <script src="scripts\imgurService.js"></script>
+    <script src="scripts\app.js"></script>
+    <script src="scripts\FacebookController.js"></script>
+
+
 </body>
 
 </html>
