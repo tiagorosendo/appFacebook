@@ -28,8 +28,8 @@
             var params = {
                 id: 0,
                 dados: {
-                    message: 'TResteatadfadfadfadfadf',
-                    description: 'Teste Description',
+                    message: vm.message,
+                    description: vm.message,
                     access_token: vm.response.authResponse.accessToken,
                     url: vm.imgLink
                 }
@@ -44,10 +44,7 @@
                 setTimeout(function(y) {
                     params.id = selectedGroups[y].id;
 
-                    FB.api('/' + params.id + '/photos', 'post', {
-                        'message': 'Testando isso aqui',
-                        'url': 'http://i.imgur.com/SYTMXQ2.jpg'
-                    }, function(response) {
+                    FB.api('/' + params.id + '/photos', 'post', params, function(response) {
                         $timeout(function() {
                             selectedGroups[y].done = !response.error;
                         });
@@ -117,6 +114,15 @@
         }
 
         function upload(element) {
+            vm.sendingImage = true;
+            vm.imageSended = false;
+            vm.error = false;
+            vm.selectedImage = element.files[0];
+
+            imgurUploadService
+                .upload(vm.selectedImage)
+                .then(success, error);
+
             var success = function(result) {
                 vm.sendingImage = false;
                 vm.imageSended = true;
@@ -128,14 +134,6 @@
                 vm.imageSended = false;
                 vm.error = err;
             };
-
-            vm.sendingImage = true;
-            vm.imageSended = false;
-            vm.error = false;
-            vm.selectedImage = element.files[0];
-            imgurUploadService
-                .upload(vm.selectedImage)
-                .then(success, error);
         };
     }
 }())
